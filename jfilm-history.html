@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>日本電影史 年鑑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700&family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12151c;
+    --card:#1b1f28;
+    --card-border:#2a2f3a;
+    --red:#a8412f;
+    --red-soft:#c96a56;
+    --gold:#c9a24a;
+    --paper:#ede7d8;
+    --muted:#8b8f9c;
+    --shadow: 0 8px 24px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(168,65,47,.10), transparent 45%),
+      radial-gradient(circle at 85% 10%, rgba(201,162,74,.08), transparent 40%),
+      var(--bg);
+    color:var(--paper);
+    font-family:'Noto Sans TC', sans-serif;
+    padding:0 0 64px;
+  }
+  .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
+
+  /* ---- Hero ---- */
+  .hero{
+    padding:56px 24px 40px;
+    text-align:center;
+    border-bottom:1px solid var(--card-border);
+    margin-bottom:36px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .eyebrow{
+    font-family:'DotGothic16', monospace;
+    letter-spacing:.35em;
+    color:var(--gold);
+    font-size:12px;
+    text-transform:uppercase;
+  }
+  .hero h1{
+    font-family:'Shippori Mincho', serif;
+    font-weight:800;
+    font-size:clamp(32px,5vw,52px);
+    margin:14px 0 10px;
+    color:var(--paper);
+  }
+  .hero h1 span{color:var(--red-soft);}
+  .hero p{
+    color:var(--muted);
+    max-width:560px;
+    margin:0 auto;
+    font-size:14.5px;
+    line-height:1.8;
+  }
+
+  /* sprocket strip */
+  .sprocket{
+    display:flex; justify-content:space-between;
+    max-width:640px; margin:26px auto 0; padding:0 4px;
+  }
+  .sprocket i{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--bg);
+    border:1.5px solid var(--card-border);
+  }
+
+  /* ---- Filter panel ---- */
+  .panel{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:14px;
+    padding:22px 24px;
+    margin-bottom:28px;
+    box-shadow:var(--shadow);
+  }
+  .panel-row{margin-bottom:16px;}
+  .panel-row:last-child{margin-bottom:0;}
+  .panel-label{
+    font-family:'DotGothic16', monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    color:var(--gold);
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:9px;
+  }
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    border:1px solid var(--card-border);
+    background:transparent;
+    color:var(--muted);
+    padding:6px 13px;
+    border-radius:100px;
+    font-size:13px;
+    font-family:'Noto Sans TC', sans-serif;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip:hover{border-color:var(--red-soft); color:var(--paper);}
+  .chip.active{
+    background:var(--red);
+    border-color:var(--red);
+    color:#fff;
+  }
+  .chip.active.gold{background:var(--gold); border-color:var(--gold); color:#1b1710;}
+  input[type=search]{
+    width:100%;
+    background:var(--bg);
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    padding:10px 14px;
+    color:var(--paper);
+    font-family:'Noto Sans TC', sans-serif;
+    font-size:14px;
+  }
+  input[type=search]:focus{outline:2px solid var(--red-soft); border-color:transparent;}
+  input[type=search]::placeholder{color:var(--muted);}
+
+  .result-bar{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:16px; color:var(--muted); font-size:13px;
+  }
+  .result-bar b{color:var(--paper); font-family:'DotGothic16', monospace;}
+  .reset-btn{
+    background:none; border:none; color:var(--red-soft);
+    font-size:13px; cursor:pointer; text-decoration:underline;
+    font-family:'Noto Sans TC', sans-serif;
+  }
+
+  /* ---- Grid ---- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+    gap:18px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    display:flex;
+    animation:fadein .35s ease;
+  }
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+  .card-main{
+    padding:18px 16px;
+    flex:1;
+    min-width:0;
+  }
+  .card-era{
+    font-family:'DotGothic16', monospace;
+    font-size:10.5px;
+    color:var(--gold);
+    letter-spacing:.08em;
+    margin-bottom:8px;
+  }
+  .card-title-jp{
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:18px;
+    line-height:1.4;
+    margin:0 0 3px;
+  }
+  .card-title-en{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .card-meta{
+    font-size:12.5px;
+    color:var(--muted);
+    line-height:1.9;
+  }
+  .card-meta b{color:var(--paper); font-weight:500;}
+  .card-tags{
+    display:flex; flex-wrap:wrap; gap:5px;
+    margin-top:10px;
+  }
+  .tag{
+    font-size:11px;
+    padding:2px 9px;
+    border-radius:100px;
+    border:1px solid var(--card-border);
+    color:var(--muted);
+  }
+  .card-note{
+    font-size:12.5px;
+    color:var(--muted);
+    margin-top:10px;
+    line-height:1.7;
+    border-top:1px dashed var(--card-border);
+    padding-top:10px;
+  }
+  .tag.award{
+    border-color:var(--gold);
+    color:var(--gold);
+  }
+  .card-link{
+    display:inline-block;
+    margin-top:10px;
+    font-size:12px;
+    color:var(--red-soft);
+    text-decoration:none;
+  }
+  .card-link:hover{text-decoration:underline;}
+  /* stub */
+  .card-stub{
+    width:34px;
+    flex-shrink:0;
+    background:
+      radial-gradient(circle 5px at 50% 12%, var(--bg) 4.5px, transparent 5px),
+      radial-gradient(circle 5px at 50% 27%, var(--bg) 4.5px, transparent 5px),
+      radial-gradient(circle 5px at 50% 42%, var(--bg) 4.5px, transparent 5px),
+      radial-gradient(circle 5px at 50% 57%, var(--bg) 4.5px, transparent 5px),
+      radial-gradient(circle 5px at 50% 72%, var(--bg) 4.5px, transparent 5px),
+      radial-gradient(circle 5px at 50% 87%, var(--bg) 4.5px, transparent 5px),
+      linear-gradient(var(--red), var(--red-soft));
+    border-left:1px dashed rgba(0,0,0,.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card-stub span{
+    writing-mode:vertical-rl;
+    font-family:'DotGothic16', monospace;
+    font-size:12px;
+    color:rgba(255,255,255,.85);
+    letter-spacing:.15em;
+  }
+
+  .empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  /* ---- Timeline ---- */
+  .timeline-section{padding:8px 24px 10px;}
+  .timeline-head{text-align:center; max-width:600px; margin:0 auto 34px;}
+  .timeline-head h2{
+    font-family:'Shippori Mincho', serif; font-size:24px; margin:0 0 8px; color:var(--paper);
+  }
+  .timeline-head p{color:var(--muted); font-size:13.5px; line-height:1.8; margin:0;}
+  .tl-legend{display:flex; justify-content:center; gap:22px; margin-top:14px; font-size:12px; color:var(--muted);}
+  .tl-legend i{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align:middle;}
+  .tl-legend .dot-film{background:var(--red);}
+  .tl-legend .dot-world{background:var(--gold);}
+
+  .timeline{
+    position:relative; max-width:760px; margin:0 auto 10px;
+    padding-left:26px; border-left:2px dashed var(--card-border);
+  }
+  .tl-item{position:relative; padding:0 0 30px 22px;}
+  .tl-item:last-child{padding-bottom:4px;}
+  .tl-dot{
+    position:absolute; left:-33px; top:3px;
+    width:13px; height:13px; border-radius:50%;
+    background:var(--red); border:3px solid var(--bg);
+    box-shadow:0 0 0 1px var(--card-border);
+  }
+  .tl-item.world .tl-dot{background:var(--gold);}
+  .tl-year{
+    font-family:'DotGothic16', monospace; color:var(--gold);
+    font-size:13px; letter-spacing:.05em;
+  }
+  .tl-item.world .tl-year{color:var(--red-soft);}
+  .tl-title{
+    font-family:'Shippori Mincho', serif; font-weight:700;
+    font-size:16.5px; margin:4px 0 6px; color:var(--paper);
+  }
+  .tl-desc{font-size:13px; color:var(--muted); line-height:1.75; max-width:560px;}
+  .tl-era-btn{
+    display:inline-block; margin-top:10px;
+    font-size:12px; color:var(--red-soft);
+    border:1px solid var(--card-border);
+    padding:5px 12px; border-radius:100px;
+    cursor:pointer; background:none;
+    font-family:'Noto Sans TC', sans-serif;
+    transition:all .15s ease;
+  }
+  .tl-era-btn:hover{border-color:var(--red-soft); color:var(--paper);}
+
+  .catalog-anchor{
+    text-align:center; margin:8px 0 40px;
+  }
+  .catalog-anchor button{
+    background:var(--red); color:#fff; border:none;
+    padding:11px 26px; border-radius:100px; font-size:14px;
+    cursor:pointer; font-family:'Noto Sans TC', sans-serif;
+  }
+  .section-divider{
+    max-width:1100px; margin:10px auto 40px; padding:0 24px;
+  }
+  .section-divider .line{border-top:1px solid var(--card-border);}
+
+  @media (max-width:520px){
+    .hero{padding:40px 16px 30px;}
+    .panel{padding:18px;}
+    .timeline{padding-left:20px;}
+    .tl-item{padding-left:16px;}
+    .tl-dot{left:-27px;}
+  }
+
+  /* ---- Nav & pages ---- */
+  .topnav{
+    position:sticky; top:0; z-index:20;
+    background:rgba(18,21,28,.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--card-border);
+    display:flex; justify-content:center; gap:6px;
+    padding:12px 16px;
+  }
+  .nav-btn{
+    background:none; border:1px solid transparent;
+    color:var(--muted); font-family:'Noto Sans TC', sans-serif;
+    font-size:13.5px; padding:8px 18px; border-radius:100px;
+    cursor:pointer; transition:all .15s ease;
+  }
+  .nav-btn:hover{color:var(--paper);}
+  .nav-btn.active{
+    background:var(--red); color:#fff;
+  }
+  .page{display:none;}
+  .page.active{display:block; animation:fadein .3s ease;}
+
+  /* ---- Director lineage ---- */
+  .lineage-head{text-align:center; max-width:600px; margin:36px auto 30px; padding:0 24px;}
+  .lineage-head h2{font-family:'Shippori Mincho', serif; font-size:24px; margin:0 0 8px;}
+  .lineage-head p{color:var(--muted); font-size:13.5px; line-height:1.8; margin:0;}
+  .lineage-wrap{max-width:900px; margin:0 auto; padding:0 24px 20px;}
+  .lineage-group{
+    background:var(--card); border:1px solid var(--card-border);
+    border-radius:14px; padding:22px 24px; margin-bottom:20px;
+  }
+  .lineage-group h3{
+    font-family:'Shippori Mincho', serif; font-size:16.5px;
+    margin:0 0 4px; color:var(--gold);
+  }
+  .lineage-sub{font-size:12px; color:var(--muted); margin-bottom:16px;}
+  .lineage-chain{
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+  }
+  .lineage-node{
+    background:var(--bg); border:1px solid var(--card-border);
+    border-radius:10px; padding:9px 14px; font-size:13px;
+  }
+  .lineage-node b{display:block; font-size:14px; color:var(--paper); margin-bottom:2px;}
+  .lineage-node span{color:var(--muted); font-size:11.5px;}
+  .lineage-node.peer{border-color:var(--gold);}
+  .lineage-level{
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+  }
+  .lineage-plus{color:var(--muted); font-size:13px;}
+  .lineage-peer-dot{color:var(--gold); font-size:15px;}
+  .lineage-arrow{color:var(--red-soft); font-size:16px;}
+  .lineage-note{
+    font-size:12.5px; color:var(--muted); line-height:1.7;
+    margin-top:14px; border-top:1px dashed var(--card-border); padding-top:12px;
+  }
+  .studio-film-list{
+    display:flex; flex-wrap:wrap; gap:7px;
+  }
+  .studio-film-chip{
+    font-size:12px; color:var(--muted);
+    background:var(--bg); border:1px solid var(--card-border);
+    border-radius:100px; padding:5px 12px;
+    cursor:pointer; transition:all .15s ease;
+  }
+  .studio-film-chip:hover{border-color:var(--red-soft); color:var(--paper);}
+
+  /* ---- Studio Gantt timeline ---- */
+  .studio-tl-wrap{
+    max-width:900px; margin:0 auto 30px; padding:0 24px;
+    overflow-x:auto;
+  }
+  .studio-tl{
+    min-width:640px;
+    background:var(--card); border:1px solid var(--card-border);
+    border-radius:14px; padding:20px 22px 14px;
+  }
+  .studio-tl-ruler{
+    position:relative; height:22px; margin-left:96px;
+    border-bottom:1px solid var(--card-border); margin-bottom:14px;
+  }
+  .studio-tl-tick{
+    position:absolute; top:0; font-size:10.5px; color:var(--muted);
+    font-family:'DotGothic16', monospace; transform:translateX(-50%);
+  }
+  .studio-tl-row{
+    display:flex; align-items:center; height:34px; margin-bottom:6px;
+  }
+  .studio-tl-label{
+    width:90px; flex-shrink:0; font-size:12.5px; color:var(--paper);
+    font-family:'Shippori Mincho', serif;
+  }
+  .studio-tl-track{
+    position:relative; flex:1; height:18px;
+    background:repeating-linear-gradient(90deg, var(--bg) 0, var(--bg) 1px, transparent 1px, transparent calc(100%/12.6));
+  }
+  .studio-tl-bar{
+    position:absolute; top:0; height:18px; border-radius:4px;
+    background:var(--red); opacity:.85;
+  }
+  .studio-tl-bar.revived{background:var(--gold); opacity:.75;}
+  .studio-tl-bar.atg{background:var(--red-soft);}
+  .studio-tl-legend{
+    display:flex; gap:18px; margin-top:12px; margin-left:96px;
+    font-size:11px; color:var(--muted);
+  }
+  .studio-tl-legend i{display:inline-block; width:10px; height:8px; border-radius:2px; margin-right:5px; vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <button class="nav-btn" data-page="timeline">時間軸</button>
+  <button class="nav-btn" data-page="catalog">片單資料庫</button>
+  <button class="nav-btn" data-page="directors">導演系譜</button>
+  <button class="nav-btn" data-page="studios">片廠介紹</button>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">Japanese Film History Archive</div>
+  <h1>日本電影史<span>年鑑</span></h1>
+  <p>依時代、片廠、類型交叉整理的重要作品筆記 — 資料為研究整理用途，非原文引用。</p>
+  <div class="sprocket" id="sprocket"></div>
+</div>
+
+<div class="page" id="page-timeline">
+<div class="timeline-section">
+  <div class="timeline-head">
+    <h2>時代脈絡 Timeline</h2>
+    <p>紅點是日本電影史自身的事件，金點是可能影響日本電影發展的國際／社會事件。點擊「查看此時代作品」可以直接跳到片單資料庫，並自動套用該時代的篩選。</p>
+    <div class="tl-legend">
+      <span><i class="dot-film"></i>日本電影事件</span>
+      <span><i class="dot-world"></i>國際／社會事件</span>
+    </div>
+  </div>
+  <div class="timeline" id="timeline"></div>
+</div>
+</div>
+
+<div class="page" id="page-catalog">
+<div class="wrap" id="catalog">
+
+  <div class="panel">
+    <div class="panel-row">
+      <span class="panel-label">搜尋片名 / 導演</span>
+      <input type="search" id="search" placeholder="例如：黑澤明、松本俊夫、羅生門...">
+    </div>
+    <div class="panel-row">
+      <span class="panel-label">時代 Era（單選）</span>
+      <div class="chips" id="era-chips"></div>
+    </div>
+    <div class="panel-row">
+      <span class="panel-label">類型 Genre（可複選）</span>
+      <div class="chips" id="genre-chips"></div>
+    </div>
+    <div class="panel-row">
+      <span class="panel-label">片廠 Studio（可複選）</span>
+      <div class="chips" id="studio-chips"></div>
+    </div>
+    <div class="panel-row">
+      <span class="panel-label">國際影展榮譽 Awards（可複選）</span>
+      <div class="chips" id="award-chips"></div>
+    </div>
+  </div>
+
+  <div class="result-bar">
+    <span>共 <b id="count">0</b> 部作品</span>
+    <button class="reset-btn" id="reset">清除所有篩選</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none;">這個組合目前沒有收錄的作品，試試調整篩選條件。</div>
+
+</div>
+</div>
+
+<div class="page" id="page-directors">
+  <div class="lineage-head">
+    <h2>導演系譜 Lineage</h2>
+    <p>整理幾組經查證的師徒、同期或同派系關係，呈現日本電影史上幾條重要的傳承脈絡，非全面的族譜，會持續擴充。</p>
+  </div>
+  <div class="lineage-wrap" id="lineage"></div>
+</div>
+
+<div class="page" id="page-studios">
+  <div class="lineage-head">
+    <h2>片廠介紹 Studios</h2>
+    <p>日本片廠制度的六大公司，加上體制外的ATG與其他獨立製片，各自的成立背景與路線。時間軸可以直接比較彼此存續的年代與交疊關係，點擊片名可直接查看片單資料庫中的詳細介紹。</p>
+  </div>
+  <div class="studio-tl-wrap" id="studio-timeline"></div>
+  <div class="lineage-wrap" id="studio-intro"></div>
+</div>
+
+<script>
+const STUDIO_INFO = [
+  {
+    name: "松竹",
+    founded: "1920年創立(前身帝國活動寫真)，1937年改用現名",
+    desc: "日本歷史最久的片廠之一，以大船攝影所出品的「大船調」家庭劇聞名，小津安二郎、木下惠介、山田洋次都是代表人物。1959年起大膽起用大島渚等新秀導演，意外催生了「松竹新浪潮」；後來這批導演又因體制衝突相繼出走。",
+  },
+  {
+    name: "東寶",
+    founded: "1932年創立東京寶塚劇場，1937年電影部門正式成立",
+    desc: "前身P.C.L.以黑澤明、山本嘉次郎等人才聞名，戰後靠《哥吉拉》系列特攝片與黑澤明的時代劇奠定國際地位，是現存片廠中規模最大、體質最穩健的一間，2001年起也負責發行吉卜力工作室的動畫作品。",
+  },
+  {
+    name: "日活",
+    founded: "1912年創立，日本歷史最悠久的電影公司，戰時一度被併入大映，1954年才恢復製片",
+    desc: "戰後重新製片時因缺乏簽約明星，改用公開選角發掘新人，意外捧紅石原裕次郎等「太陽族」世代偶像。1971年公司陷入經營危機，轉型改拍「羅曼波爾諾」情色片路線，成為日後多位知名導演的早期磨練場。",
+  },
+  {
+    name: "大映",
+    founded: "1942年由戰時國家統制合併日活、新興電影、大都電影的製片部門而成",
+    desc: "以文藝時代劇見長，溝口健二、黑澤明的《羅生門》、增村保造與若尾文子的長期合作都出自大映，是1950年代日本電影拿下歐洲三大影展最多獎項的片廠。1971年不敵電視衝擊宣告破產，2002年併入角川集團。",
+  },
+  {
+    name: "東映",
+    founded: "1949年創立東京映畫配給，1951年正式改組為東映",
+    desc: "以時代劇起家、後期以黑幫任俠片(如《無仁義的戰爭》系列)與明星制聞名，片廠內部競爭激烈，甚至要求同片主演的特寫鏡頭數量均等分配。80年代起也代理發行角川電影，近年則以「相棒」等系列電影延續片廠路線。",
+  },
+  {
+    name: "新東寶",
+    founded: "1947年因東寶大罷工分裂而成立，1961年倒閉",
+    desc: "存續14年間出品超過800部電影，前期文藝路線曾拿下威尼斯影展國際獎(《西鶴一代女》)，後期急轉走向「エロ・グロ(色情獵奇)」的大眾娛樂路線，1961年不敵財務問題倒閉，是五大片廠中最早消失的一間。",
+  },
+  {
+    name: "ATG",
+    founded: "1961年由東寶副社長森岩雄支持成立，1992年停止運作",
+    desc: "全名「日本アート・シアター・ギルド」，最初以引進海外藝術電影為主，1967年起推出「一千萬圓電影」合拍模式，與獨立製片公司對半出資，扶植大島渚、松本俊夫、吉田喜重、寺山修司等作者導演在片廠體制外拍出高作者性的實驗作品，是日本前衛電影最重要的生產機制之一，跟一般泛稱的「獨立製片」是不同的公司實體。",
+  },
+  {
+    name: "獨立/其他",
+    founded: "無單一機構，涵蓋各時代自組公司或個人製作的獨立作品",
+    desc: "包含大島渚的「創造社」、吉田喜重的「現代映畫社」、篠田正浩的「表現社」、今村昌平的「今村製作」等導演自組公司，也包含塚本晉也《鐵男》這類近乎零預算的個人自主製作，是片廠體制外持續存在的另一種生產路線。",
+  },
+];
+
+const STUDIO_TIMELINE = [
+  { name:"日活", segments:[
+      {start:1912, end:1942, note:"創立，日本歷史最悠久的電影公司"},
+      {start:1954, end:2026, note:"恢復製片，戰後至今"},
+    ]},
+  { name:"松竹", segments:[{start:1920, end:2026, note:"1937年改用現名，持續至今"}] },
+  { name:"東寶", segments:[{start:1932, end:2026, note:"1937年電影部門正式成立，持續至今"}] },
+  { name:"大映", segments:[
+      {start:1942, end:1971, note:"戰時合併日活、新興、大都的製片部門而成；1971年破產", type:"main"},
+      {start:2002, end:2026, note:"併入角川集團，以品牌形式延續", type:"revived"},
+    ]},
+  { name:"新東寶", segments:[{start:1947, end:1961, note:"東寶大罷工分裂而生，1961年倒閉"}] },
+  { name:"東映", segments:[{start:1949, end:2026, note:"1951年正式改組為東映，持續至今"}] },
+  { name:"ATG", segments:[{start:1961, end:1992, note:"扶植作者導演的藝術院線公司", type:"atg"}] },
+];
+const TL_MIN = 1900, TL_MAX = 2026, TL_RANGE = TL_MAX - TL_MIN;
+
+function renderStudioTimeline(){
+  const el = document.getElementById('studio-timeline');
+  const ticks = [1900,1920,1940,1953,1961,1971,1992,2010,2026];
+  const rulerHtml = ticks.map(y=>{
+    const pct = (y-TL_MIN)/TL_RANGE*100;
+    return `<span class="studio-tl-tick" style="left:${pct}%;">${y}</span>`;
+  }).join('');
+  const rowsHtml = STUDIO_TIMELINE.map(s=>{
+    const barsHtml = s.segments.map(seg=>{
+      const left = (seg.start-TL_MIN)/TL_RANGE*100;
+      const width = (seg.end-seg.start)/TL_RANGE*100;
+      const cls = seg.type === 'revived' ? 'revived' : (seg.type === 'atg' ? 'atg' : '');
+      return `<div class="studio-tl-bar ${cls}" style="left:${left}%; width:${width}%;" title="${s.name}　${seg.start}–${seg.end===2026?'至今':seg.end}　${seg.note}"></div>`;
+    }).join('');
+    return `
+      <div class="studio-tl-row">
+        <div class="studio-tl-label">${s.name}</div>
+        <div class="studio-tl-track">${barsHtml}</div>
+      </div>
+    `;
+  }).join('');
+  el.innerHTML = `
+    <div class="studio-tl">
+      <div class="studio-tl-ruler">${rulerHtml}</div>
+      ${rowsHtml}
+      <div class="studio-tl-legend">
+        <span><i style="background:var(--red);"></i>正常經營</span>
+        <span><i style="background:var(--gold);"></i>復活／改組後品牌</span>
+        <span><i style="background:var(--red-soft);"></i>ATG(藝術院線)</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderStudioIntro(){
+  const el = document.getElementById('studio-intro');
+  el.innerHTML = STUDIO_INFO.map(s => {
+    const films = DATA.filter(f => f.studio === s.name).sort((a,b)=>a.year-b.year);
+    return `
+    <div class="lineage-group">
+      <h3>${s.name}</h3>
+      <div class="lineage-sub">${s.founded}</div>
+      <div class="lineage-note" style="margin-top:0; border-top:none; padding-top:0; margin-bottom:14px;">${s.desc}</div>
+      <div class="studio-film-list">
+        ${films.length ? films.map(f=>`<span class="studio-film-chip" data-jp="${f.jp}">${f.jp}(${f.year})</span>`).join('') : '<span class="lineage-sub">片單資料庫中尚無此片廠作品</span>'}
+      </div>
+    </div>
+  `;}).join('');
+  el.querySelectorAll('.studio-film-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      state.q = chip.dataset.jp;
+      document.getElementById('search').value = chip.dataset.jp;
+      renderGrid();
+      showPage('catalog');
+    });
+  });
+}
+</script>
+
+<script>
+const LINEAGE = [
+  {
+    group: "大映／溝口健二・市川崑門下",
+    sub: "大映　1950s，另留學羅馬國立電影實驗中心",
+    type: "hierarchy",
+    chain: [
+      {name:"溝口健二", role:"導演", level:0},
+      {name:"市川崑", role:"導演", level:0},
+      {name:"增村保造", role:"兩人的助導", level:1},
+    ],
+    note:"增村保造1952年曾留學羅馬國立電影實驗中心，受費里尼、維斯康提等人啟發，回國後在大映擔任溝口健二晚期作品(《楊貴妃》《新‧平家物語》《赤線地帶》)與市川崑的助導，1957年才以《接吻》升格導演，之後以若尾文子為固定班底建立起強烈個人風格。"
+  },
+  {
+    group: "東寶／山本嘉次郎門下",
+    sub: "P.C.L.／東寶　1930s–1950s",
+    type: "hierarchy",
+    chain: [
+      {name:"山本嘉次郎", role:"導演／師父", level:0},
+      {name:"黑澤明", role:"入室助導", level:1},
+      {name:"谷口千吉", role:"同期助導", level:1},
+      {name:"本多豬四郎", role:"同期助導→《哥吉拉》導演", level:1},
+    ],
+    note:"黑澤明1936年進入P.C.L.(後併入東寶)成為山本嘉次郎的助理導演，山本組同期助導還有谷口千吉與本多豬四郎(後來執導《哥吉拉》)，三人交情深厚，黑澤自稱山本為「最良的師父」。三人彼此是同期同僚、並非師徒關係，圖中僅呈現他們與山本共同的師承。"
+  },
+  {
+    group: "松竹→日活／小津安二郎、川島雄三 與 今村昌平",
+    sub: "松竹大船撮影所→日活　1950s",
+    type: "hierarchy",
+    chain: [
+      {name:"小津安二郎", role:"最初的助導對象(不合)", level:0},
+      {name:"川島雄三", role:"轉投後的真正師父", level:0},
+      {name:"今村昌平", role:"徒弟", level:1},
+    ],
+    note:"今村昌平1951年進入松竹大船擔任小津安二郎的助導，但對松竹家庭劇的美學與體制感到格格不入；後來隨川島雄三一起轉往日活，才正式成為川島的徒弟。小津與川島兩人並非同一脈絡的師徒鏈，而是今村先後跟隨的兩位不同導演。"
+  },
+  {
+    group: "松竹新浪潮(松竹ヌーヴェルヴァーグ)",
+    sub: "松竹大船撮影所　1959–1960　【同期，非師徒】",
+    type: "peers",
+    chain: [
+      {name:"大島渚", role:"1959年出道"},
+      {name:"篠田正浩", role:"同期"},
+      {name:"吉田喜重", role:"同期"},
+    ],
+    note:"三人並非師徒關係，而是同期進入松竹、幾乎同時以尖銳的青年題材出道的新人導演，因風格神似法國新浪潮而被媒體封為「松竹ヌーヴェルヴァーグ」。大島渚後來因《日本的夜與霧》遭撤檔而出走，篠田與吉田也相繼離開松竹自組獨立公司。"
+  },
+  {
+    group: "東京藝術大學／黑澤清門下",
+    sub: "東京藝術大學大學院映像研究科　2000s",
+    type: "hierarchy",
+    chain: [
+      {name:"黑澤清", role:"研究所教授", level:0},
+      {name:"濱口竜介", role:"研究所學生", level:1},
+    ],
+    note:"濱口竜介在東京藝術大學大學院映像研究科就讀時，師事擔任教授的黑澤清，兩人日後都以神戶為背景拍片，也都拿下威尼斯／坎城／柏林等國際影展重要獎項。"
+  },
+  {
+    group: "ATG「一千萬圓電影」合資夥伴的獨立製片公司",
+    sub: "日本ATG　1967年起　【資金合作，非雇傭關係，導演彼此非師徒】",
+    type: "hierarchy",
+    chain: [
+      {name:"日本ATG", role:"製作／配給公司", level:0},
+      {name:"大島渚", role:"創造社", level:1},
+      {name:"篠田正浩", role:"表現社", level:1},
+      {name:"吉田喜重", role:"現代映畫社", level:1},
+      {name:"松本俊夫", role:"《薔薇的葬列》《修羅》", level:1},
+      {name:"羽仁進", role:"《初恋・地獄篇》", level:1},
+      {name:"寺山修司", role:"人力飛行機社", level:1},
+    ],
+    note:"這幾位並非彼此師徒，而是各自經營獨立製作公司、同時受惠於ATG「一千萬圓電影」合資模式的作者型導演——大島渚的公司是「創造社」、篠田正浩是「表現社」、吉田喜重是「現代映畫社」、寺山修司則是「人力飛行機社」。ATG與這些獨立公司對半出資，並非雇傭關係，而是讓低成本、高作者性的實驗性作品得以在片廠體制外誕生，是1967年後日本前衛電影最重要的生產機制。寺山修司原本是詩人、劇作家，1967年自組前衛劇團「天井棧敷」後才跨界拍片，他與ATG合作的作品跟他的劇場創作互為表裡，也是這組導演群裡體制外色彩最濃厚的一位。圖中箭頭僅代表「ATG→導演」的資金與院線合作關係，導演彼此之間平行、無師徒關係。"
+  },
+  {
+    group: "実験工房／瀧口修造門下",
+    sub: "新理研映画　1950s",
+    type: "hierarchy",
+    chain: [
+      {name:"瀧口修造", role:"美術評論家／後見人", level:0},
+      {name:"実験工房", role:"跨領域藝術家團體", level:1},
+      {name:"松本俊夫", role:"參與繪製分鏡", level:2},
+    ],
+    note:"松本俊夫進入新理研映画拍攝PR片《銀輪》時，與美術評論家瀧口修造擔任精神後盾的跨領域藝術家團體「実験工房」(山口勝弘、北代省三等人)合作，由松本負責繪製分鏡，這段跨界經驗奠定他日後結合前衛藝術與影像實驗的創作路線。"
+  },
+];
+
+function renderLineageChain(g){
+  if(g.type === 'peers'){
+    // 同輩/同期：不使用箭頭，改用同排並列 + 小圓點分隔
+    return g.chain.map((n,i)=>`
+      <div class="lineage-node peer"><b>${n.name}</b><span>${n.role}</span></div>
+      ${i<g.chain.length-1?'<span class="lineage-peer-dot">・</span>':''}
+    `).join('');
+  }
+  // hierarchy：依 level 分組，同一 level 內平行並列(用＋)，不同 level 之間才用箭頭
+  const levels = [...new Set(g.chain.map(n=>n.level))].sort((a,b)=>a-b);
+  return levels.map((lv,li)=>{
+    const nodesInLevel = g.chain.filter(n=>n.level===lv);
+    const nodesHtml = nodesInLevel.map((n,i)=>`
+      <div class="lineage-node"><b>${n.name}</b><span>${n.role}</span></div>
+      ${i<nodesInLevel.length-1?'<span class="lineage-plus">＋</span>':''}
+    `).join('');
+    return `<div class="lineage-level">${nodesHtml}</div>${li<levels.length-1?'<span class="lineage-arrow">→</span>':''}`;
+  }).join('');
+}
+
+function renderLineage(){
+  const el = document.getElementById('lineage');
+  el.innerHTML = LINEAGE.map(g => `
+    <div class="lineage-group">
+      <h3>${g.group}</h3>
+      <div class="lineage-sub">${g.sub}</div>
+      <div class="lineage-chain">
+        ${renderLineageChain(g)}
+      </div>
+      <div class="lineage-note">${g.note}</div>
+    </div>
+  `).join('');
+}
+</script>
+
+<script>
+const ERAS = [
+  "默片時代","戰爭年代","戰後黃金時代","片廠全盛期","新浪潮",
+  "獨立製片與類型片爆發","平成新電影","令和當代"
+];
+const GENRES = ["戰爭電影","實驗電影","時代劇","家庭劇","黑幫/任俠","粉紅/成人電影","動畫","恐怖","紀錄片","藝術電影"];
+const STUDIOS = ["松竹","東寶","日活","大映","東映","新東寶","ATG","獨立/其他"];
+const AWARDS = ["坎城金棕櫚","威尼斯金獅/銀獅","柏林金熊","坎城最佳導演/演員","奧斯卡","其他國際榮譽"];
+
+const EVENTS = [
+  {year:"1896", type:"film", title:"日本首次公開放映電影", era:"默片時代",
+   desc:"神戶率先引進愛迪生發明的「窺視鏡」(Kinetoscope)，是日本最早的動態影像放映紀錄。"},
+  {year:"1897", type:"film", title:"銀幕放映首次登陸大阪", era:"默片時代",
+   desc:"法國盧米埃兄弟發明的「活動電影機」傳入，大阪首次出現可供多人共同觀看的銀幕放映。"},
+  {year:"1914–1918", type:"world", title:"第一次世界大戰",
+   desc:"歐洲電影工業因戰爭元氣大傷，好萊塢趁勢崛起主導世界市場，全球電影供給版圖自此重新洗牌。日本因未直接捲入本土戰事，反而藉軍需景氣讓國內產業快速擴張，也讓向來以進口歐美片為主的日本市場，被迫轉向扶植自製長片與敘事技法(例如脫離辯士主導、發展「純映畫劇」運動)。"},
+  {year:"1923", type:"world", title:"關東大震災", era:"默片時代",
+   desc:"東京多間攝影棚在大地震中全毀，日本電影產業重心一度轉往京都、大阪等關西地區。"},
+  {year:"1931", type:"film", title:"日本首部有聲電影上映", era:"默片時代",
+   desc:"五所平之助執導的《夫人與老婆》問世，宣告默片辯士時代逐漸走向尾聲。"},
+  {year:"1939", type:"world", title:"電影法公布", era:"戰爭年代",
+   desc:"日本政府仿效德義的電影國策法，將製作、發行、從業人員全面納入許可與登錄制度，展開國家對電影的全面統制。"},
+  {year:"1939–1945", type:"world", title:"第二次世界大戰",
+   desc:"軍需管制導致膠捲與器材短缺，歐美進口中斷，片廠被迫大量拍攝國策戰爭片，年產量從近500部驟降至20餘部。"},
+  {year:"1945", type:"world", title:"戰敗與盟軍佔領開始", era:"戰後黃金時代",
+   desc:"日本戰敗，舊有的國家審查制度雖廢止，但盟軍總司令部(GHQ)隨即接手實施新一輪電影檢閱。"},
+  {year:"1948", type:"film", title:"東寶大罷工",
+   desc:"東寶員工發起長達195天的大規模罷工，最終在美軍介入下落幕，是戰後日本電影產業勞資衝突的重要事件。"},
+  {year:"1951", type:"film", title:"《羅生門》勇奪威尼斯金獅獎",
+   desc:"黑澤明的作品讓日本電影首次在歐洲三大影展拿下最高榮譽，正式打開日本電影的國際能見度。"},
+  {year:"1953", type:"world", title:"日本電視放送開始",
+   desc:"NHK開播電視節目後，電影觀影人次於1958年攻頂(全年11.3億人次、全國逾7000家戲院)，隨後急速下滑——到1964年只剩1958年的三分之一。片廠一方面拒絕把舊片賣給電視台播放、抵制明星上電視，一方面積極開發「東映スコープ」等寬銀幕、彩色化規格與電視台無法複製的視覺規模感來留住觀眾，但長期而言仍無法逆轉觀影人口流失的趨勢。"},
+  {year:"1956", type:"film", title:"「太陽族」電影掀起風潮", era:"片廠全盛期",
+   desc:"《太陽的季節》改編自石原慎太郎的芥川賞小說，描繪湘南海岸放浪享樂的富家青年，上映後與同年推出的《處刑的房間》《瘋狂的果實》一起被稱為「太陽族電影」，因劇中無軌道的性與暴力情節被認為帶壞青少年、甚至傳出青少年模仿劇情犯案，各地戲院自主規定未成年禁止觀賞，社會輿論譁然。這場爭議直接促成獨立於片廠之外、納入業界外部人士的「映画倫理管理委員會(映倫)」正式成立，成為日後日本電影分級與自律審查的基礎。"},
+  {year:"1960", type:"film", title:"大島渚出走松竹，獨立製片興起", era:"新浪潮",
+   desc:"《日本的夜與霧》上映四天即因題材敏感遭撤檔，大島渚憤而離開松竹，隔年與妻子小山明子等人自組獨立製片公司「創造社」；同為「松竹ヌーヴェルヴァーグ」的吉田喜重、篠田正浩也相繼離開松竹，分別在1966、1967年成立「現代映畫社」與「表現社」。60年代後期起，連原本效力於各大片廠核心的今村昌平、中平康、岡本喜八、增村保造等資深導演，也陸續投入獨立製片體系。"},
+  {year:"1961", type:"film", title:"日本ATG成立",
+   desc:"東寶副社長森岩雄支持成立「日本アート・シアター・ギルド」，最初以引進海外藝術電影為主，1967年起推出「一千萬圓電影」模式，扶植大島渚、松本俊夫、勅使河原宏等作者型導演拍攝低成本藝術電影，是片廠體制外最重要的另類生產機制之一。"},
+  {year:"1962", type:"film", title:"粉紅電影誕生", era:"獨立製片與類型片爆發",
+   desc:"《肉體的市場》等低成本情色片開創出片廠體制外的另一條生存路線，往後二十年間持續發展出獨立的產業生態。"},
+  {year:"1964", type:"world", title:"東京奧運舉辦",
+   desc:"日本以主辦奧運宣告戰後經濟高度成長的成果，市川崑執導的紀錄片《東京オリンピック》也成為當年話題之作。"},
+  {year:"1971", type:"film", title:"日活推出「羅曼波爾諾」路線",
+   desc:"日活因經營陷入困境，1971年停止一般電影製作、轉型專拍情色片，首部作品《團地妻・午後的情事》大獲成功。這套路線訂有明確製作規則：全片約70-80分鐘、大約每10分鐘要有一場床戲、製作費與檔期統一壓低，但敘事與手法上給導演相當大的自由度。隔年推出的四部作品即遭警視廳以猥褻罪起訴(「日活羅曼波爾諾事件」)，纏訟近十年才在1980年二審無罪定讞。這套低成本高自由度的體制長年下來也成為不少日後成名導演早期磨練場所之一。"},
+  {year:"1975", type:"world", title:"家用錄影帶系統問世",
+   desc:"Sony發表Betamax，往後十餘年間錄影帶逐漸普及到一般家庭，1991年VHS在規格大戰中勝出，錄影帶產業攻頂。這也催生出「不進戲院、直接發行錄影帶」的全新製作模式：東映1989年推出商標「Vシネマ」，首作《怒りの銃弾》以約6000-7000萬日圓的低預算(遠低於院線片)專拍黑幫、賭博等院線不看好的類型；拍攝週期與規模也隨之壓縮，一年可產出遠多於院線片的數量。這套體制意外成為許多演員、導演在片廠外持續磨練的重要出海口，也為90年代後半興起的Ｊ－Horror浪潮預先鋪好產製土壤。"},
+  {year:"1989", type:"world", title:"平成時代開始", era:"平成新電影",
+   desc:"昭和天皇駕崩，日本進入平成年號，電影界也隨著世代交替迎來北野武、岩井俊二等新一代作者導演。"},
+  {year:"1991", type:"world", title:"泡沫經濟崩潰",
+   desc:"日本經濟進入「失落的十年」，電影投資與製作規模隨之緊縮，但也讓「ぴあフィルムフェスティバル(PFF)」等自主製片影展扶植的獨立創作者有了發揮空間。塚本晋也在泡沫經濟高峰期以近乎零預算、自編自導自演自剪的方式完成的《鐵男》(1989)，正是這股體制外能量的代表——該片拿下羅馬奇幻影展大獎，讓塚本晋也的名字被世界看見，也證明片廠體制外一樣能長出風格強烈的作者。"},
+  {year:"1997", type:"film", title:"平成電影在國際影展大放異彩",
+   desc:"北野武《HANA-BI》拿下威尼斯金獅獎、今村昌平《鰻魚》拿下坎城金棕櫚獎，同一年日本電影在歐洲兩大影展雙雙封頂。"},
+  {year:"2001", type:"film", title:"《千與千尋的神隱》上映",
+   desc:"宮崎駿與吉卜力工作室刷新日本影史票房紀錄，隔年再拿下柏林金熊獎與奧斯卡最佳動畫長片。"},
+  {year:"2011", type:"world", title:"東日本大震災",
+   desc:"地震、海嘯與核災的複合式災難深刻衝擊日本社會。震災發生後，濱口竜介與酒井耕兩位導演在東京藝大支持下前往宮城縣，花費兩年多完成「東北記録映画三部作」——《なみのおと》(2011)、《なみのこえ》(2013)、《うたうひと》(2013)。三部曲刻意不拍攝災區廢墟或慘狀畫面，而是讓親人、同僚彼此對話、聆聽民間故事傳承者的口述，用「聆聽」本身作為處理集體創傷、跨越世代與地域斷裂的方法。園子溫則以劇情長片《希望の国》(2012)直接處理核災議題，形成紀錄片與劇情片兩種截然不同的創傷處理路徑。"},
+  {year:"2019", type:"world", title:"令和時代開始", era:"令和當代",
+   desc:"平成落幕，日本改元令和，是枝裕和、濱口竜介等導演持續在國際影展延續日本電影的能見度。"},
+  {year:"2020", type:"world", title:"COVID-19疫情爆發",
+   desc:"全球戲院產業重創，串流平台加速崛起，日本電影的發行與觀影模式也隨之出現結構性變化。"},
+];
+
+const DATA = [
+  {jp:"浪華悲歌", en:"Osaka Elegy", year:1936, dir:"溝口健二", studio:"獨立/其他", era:"默片時代",
+   genres:["家庭劇"], note:"以大阪為背景描寫女性在現實壓迫下求生的劇情片，被視為日本現實主義女性題材的早期代表。"},
+  {jp:"陸軍", en:"Army", year:1944, dir:"木下惠介", studio:"松竹", era:"戰爭年代",
+   genres:["戰爭電影"], note:"名義上是鼓舞士氣的國策片，但結尾母親送子出征的長鏡頭被認為暗藏反戰情緒。"},
+  {jp:"ハワイ・マレー沖海戦", en:"The War at Sea from Hawaii to Malaya", year:1942, dir:"山本嘉次郎", studio:"東寶", era:"戰爭年代",
+   genres:["戰爭電影"], note:"海軍協力製作的戰意高揚片，以特攝呈現珍珠港與馬來海戰，圓谷英二負責特技指導。"},
+  {jp:"桃太郎 海の神兵", en:"Momotaro's Divine Sea Warriors", year:1945, dir:"瀨尾光世", studio:"松竹", era:"戰爭年代",
+   genres:["戰爭電影","動畫"], note:"日本第一部長篇動畫電影，以桃太郎寓言包裝海軍空降作戰的國策宣傳內容。"},
+  {jp:"明治天皇と日露大戦争", en:"Meiji Tenno to Nichiro Daisenso", year:1957, dir:"渡辺邦男", studio:"新東寶", era:"戰後黃金時代",
+   genres:["戰爭電影","時代劇"], note:"新東寶擅長的歷史戰爭大作路線，重現日俄戰爭與明治天皇形象，是當年極賣座的作品。"},
+  {jp:"大曾根家の朝", en:"Morning for the Osone Family", year:1946, dir:"木下惠介", studio:"松竹", era:"戰後黃金時代",
+   genres:["家庭劇","戰爭電影"], note:"戰後初期反思軍國主義如何撕裂一個家庭，上映當年獲電影旬報年度十大影片第一名。"},
+  {jp:"二十四の瞳", en:"Twenty-Four Eyes", year:1954, dir:"木下惠介", studio:"松竹", era:"戰後黃金時代",
+   genres:["家庭劇","戰爭電影"], note:"以小豆島女教師與學生們橫跨戰前戰後的情誼，溫柔卻沉重地描繪戰爭如何奪走平凡幸福。"},
+  {jp:"東京物語", en:"Tokyo Story", year:1953, dir:"小津安二郎", studio:"松竹", era:"戰後黃金時代",
+   genres:["家庭劇"], note:"以固定機位與淡然節奏描寫年邁父母與子女間逐漸疏離的日常，是小津家庭劇美學的代表作。"},
+  {jp:"マダムと女房", en:"Madamu to Nyobo", year:1931, dir:"五所平之助", studio:"松竹", era:"默片時代",
+   genres:["家庭劇"], note:"日本第一部全片同步錄音的正式有聲電影，以劇作家搬新家後被鄰居爵士樂吵得無法寫稿的喜劇情境，刻意讓「聲音」成為全片主題，也讓有聲電影正式在日本站穩腳步。"},
+  {jp:"東京オリンピック", en:"Tokyo Olympiad", year:1965, dir:"市川崑", studio:"東寶", era:"片廠全盛期",
+   genres:["紀錄片"], note:"1964東京奧運官方紀錄片，以望遠鏡頭捕捉選手表情而非單純比賽結果，上映時因「太不像傳統紀錄片」引發文部大臣公開批評，後來卻拿下坎城影展國際影評人獎，如今被視為紀錄片美學的經典。"},
+  {jp:"希望の国", en:"The Land of Hope", year:2012, dir:"園子溫", studio:"獨立/其他", era:"平成新電影",
+   genres:["藝術電影"], note:"以架空的核電廠事故城鎮為背景，直接處理311東日本大震災後福島核災議題，導演實際走訪災民取材後才完成劇本，於多倫多影展獲最佳亞洲電影獎。"},
+  {jp:"羅生門", en:"Rashomon", year:1950, dir:"黑澤明", studio:"大映", era:"戰後黃金時代",
+   genres:["時代劇"], award:"威尼斯金獅/銀獅",
+   note:"以多重視角敘事重述同一樁命案，1951年拿下威尼斯影展金獅獎，是日本電影首次獲得歐洲三大影展最高榮譽，打開國際市場。"},
+  {jp:"雨月物語", en:"Ugetsu", year:1953, dir:"溝口健二", studio:"大映", era:"戰後黃金時代",
+   genres:["時代劇"], award:"威尼斯金獅/銀獅",
+   note:"改編自江戶怪談，以流動的運動長鏡頭描繪戰亂中人性的貪念與幻滅，同年獲威尼斯影展銀獅獎，是溝口健二連續三年獲獎的其中一部。"},
+  {jp:"七人の侍", en:"Seven Samurai", year:1954, dir:"黑澤明", studio:"東寶", era:"片廠全盛期",
+   genres:["時代劇"], award:"威尼斯金獅/銀獅",
+   note:"以村莊雇用武士對抗盜賊為主軸，動作場面調度深深影響後世全球類型片，同年與溝口健二的《山椒大夫》一起獲威尼斯影展銀獅獎。"},
+  {jp:"ゴジラ", en:"Godzilla", year:1954, dir:"本多豬四郎", studio:"東寶", era:"片廠全盛期",
+   genres:["恐怖"], note:"以核試驗喚醒的巨獸隱喻廣島長崎的核陰影，開啟東寶特攝怪獸片的長銷系列。"},
+  {jp:"太陽の季節", en:"Season of the Sun", year:1956, dir:"古川卓巳", studio:"日活", era:"片廠全盛期",
+   genres:["家庭劇"], note:"改編自石原慎太郎小說，描寫湘南海岸放浪的年輕世代，催生「太陽族」青年文化風潮。"},
+  {jp:"狂った果実", en:"Crazed Fruit", year:1956, dir:"中平康", studio:"日活", era:"片廠全盛期",
+   genres:["家庭劇"], note:"延續太陽族路線，以兩兄弟與一名女子的三角關係描繪戰後新世代的享樂與虛無。"},
+  {jp:"卍", en:"Manji", year:1964, dir:"增村保造", studio:"大映", era:"片廠全盛期",
+   genres:["藝術電影"], note:"改編自谷崎潤一郎同名小說，描寫一名人妻與女子之間逐漸失控的親密關係，增村保造以他一貫強烈的自我意志美學處理禁忌情慾題材。"},
+  {jp:"赤い天使", en:"Red Angel", year:1966, dir:"增村保造", studio:"大映", era:"片廠全盛期",
+   genres:["戰爭電影"], note:"以日中戰爭前線的隨軍護士為主角，直視戰場截肢手術等殘酷場景，同時描繪極限處境下的情慾與人性，是增村保造與若尾文子多次合作中評價最高的反戰之作。"},
+  {jp:"裸の島", en:"The Naked Island", year:1960, dir:"新藤兼人", studio:"獨立/其他", era:"新浪潮",
+   genres:["實驗電影"], note:"全片幾乎無對白，僅以夫妻在孤島挑水耕作的勞動身影，寓言式呈現生存的孤絕與尊嚴。"},
+  {jp:"日本の夜と霧", en:"Night and Fog in Japan", year:1960, dir:"大島渚", studio:"松竹", era:"新浪潮",
+   genres:["實驗電影"], note:"以政治婚禮場景交錯回顧安保鬥爭挫敗，因題材敏感上映四天即被松竹撤檔，促使大島渚出走自組公司。"},
+  {jp:"西陣", en:"Nishijin", year:1961, dir:"松本俊夫", studio:"獨立/其他", era:"新浪潮",
+   genres:["實驗電影","紀錄片"], note:"以京都西陣織的傳統工坊為題材，捨棄一般紀錄片手法，改以詩意影像疊合六十年代安保後的社會壓抑感。"},
+  {jp:"砂の女", en:"Woman in the Dunes", year:1964, dir:"勅使河原宏", studio:"獨立/其他", era:"新浪潮",
+   genres:["實驗電影"], note:"一名男子受困沙丘村落與神秘女子共同挖沙維生的寓言故事，探討現代人身份被日常勞動吞噬的困境。"},
+  {jp:"他人の顔", en:"The Face of Another", year:1966, dir:"勅使河原宏", studio:"獨立/其他", era:"新浪潮",
+   genres:["實驗電影"], note:"毀容男子戴上他人臉孔面具後逐漸迷失自我認同，以冷冽影像風格探討身份與異化。"},
+  {jp:"薔薇の葬列", en:"Funeral Parade of Roses", year:1969, dir:"松本俊夫", studio:"ATG", era:"新浪潮",
+   genres:["實驗電影"], note:"松本俊夫首部劇情長片，以跳接與偽紀錄片手法描繪東京地下同志酒吧文化，深刻影響後世前衛電影語言。"},
+  {jp:"修羅", en:"Demons", year:1971, dir:"松本俊夫", studio:"ATG", era:"新浪潮",
+   genres:["實驗電影","時代劇"], note:"改編自鶴屋南北歌舞伎劇本《盟三五大切》，是松本俊夫劇情長片第二作，以停格攝影等前衛手法處理血腥復仇故事，被視為ATG時代劇路線中風格最強烈的一部。"},
+  {jp:"ドグラ・マグラ", en:"Dogura Magura", year:1988, dir:"松本俊夫", studio:"獨立/其他", era:"獨立製片與類型片爆發",
+   genres:["實驗電影"], note:"改編自夢野久作被稱為「日本文學史奇書」的同名小說，長年被認為「不可能影像化」，松本俊夫以邏輯清晰的敘事結構挑戰原作混沌迷宮般的意識描寫，1988年入選柏林影展。"},
+  {jp:"妻は告白する", en:"Wife Confesses", year:1961, dir:"增村保造", studio:"大映", era:"片廠全盛期",
+   genres:["藝術電影"], note:"以登山意外中妻子割斷繩索是否構成殺意的法庭戲為主軸，若尾文子近乎燃燒的演出被視為她與增村保造二十餘次合作中演技最開展的一次，也是增村作者風格確立的關鍵作品。"},
+  {jp:"愛と希望の街", en:"A Town of Love and Hope", year:1959, dir:"大島渚", studio:"松竹", era:"新浪潮",
+   genres:["家庭劇"], note:"大島渚27歲的長片處女作，原題《賣鴿子的少年》，描寫貧窮少年靠賣「會飛回來」的鴿子行騙維生，一舉推翻松竹傳統的溫情人道主義路線，是他後來所有反叛作品的起點。"},
+  {jp:"太陽の墓場", en:"The Sun's Burial", year:1960, dir:"大島渚", studio:"松竹", era:"新浪潮",
+   genres:["黑幫/任俠"], note:"以大阪釜崎貧民窟為舞台，描寫愚連隊底層混混與暴力幫派間的爭鬥求生，實地在後來爆發暴動的釜崎取景，被稱為「大阪篇的青春殘酷物語」。"},
+  {jp:"乾いた花", en:"Pale Flower", year:1964, dir:"篠田正浩", studio:"松竹", era:"新浪潮",
+   genres:["黑幫/任俠"], note:"改編自石原慎太郎小說，以剛出獄的賭徒與神秘女子之間的危險吸引為主軸，篠田正浩用冷冽疏離的黑白攝影重新定義了黑幫類型片的美學語言，也是「松竹新浪潮」代表作之一。"},
+  {jp:"東京流れ者", en:"Tokyo Drifter", year:1966, dir:"鈴木清順", studio:"日活", era:"新浪潮",
+   genres:["黑幫/任俠"], note:"以極度風格化的色彩調度與跳脫邏輯的空間場景，把B級黑幫類型片拍成一場視覺實驗，是「清順美學」的代表作，長年被王家衛、達米恩・查澤雷等國際導演公開致敬。"},
+  {jp:"殺しの烙印", en:"Branded to Kill", year:1967, dir:"鈴木清順", studio:"日活", era:"新浪潮",
+   genres:["黑幫/任俠","實驗電影"], note:"以殺手排行第三號的職業殺手為主角，敘事邏輯與時空刻意錯亂，因「讓人看不懂」觸怒日活社長而遭解雇，卻意外引發影迷與影人組成「鈴木清順問題共鬥會議」抗議聲援，成為一時的社會事件。"},
+  {jp:"神々の深き欲望", en:"The Profound Desire of the Gods", year:1968, dir:"今村昌平", studio:"獨立/其他", era:"新浪潮",
+   genres:["實驗電影","家庭劇"], note:"今村昌平耗費六年構思、兩年拍攝，在沖繩南方孤島取景，描寫神話信仰與近親禁忌糾葛的家族史詩，被視為他日活時期的集大成之作，也是他自組今村製作公司後首批大型企劃，一度讓公司瀕臨破產。"},
+  {jp:"エロス+虐殺", en:"Eros + Massacre", year:1970, dir:"吉田喜重", studio:"ATG", era:"新浪潮",
+   genres:["實驗電影"], note:"取材自大正時期真實發生的「日蔭茶屋事件」，以虛實交錯、古今並置的敘事結構描繪無政府主義者大杉榮的情愛與死亡，是吉田喜重「日本近代批判三部曲」的代表作，公開時甚至遭事件關係人提告要求禁演。"},
+  {jp:"書を捨てよ町へ出よう", en:"Throw Away Your Books, Rally in the Streets", year:1971, dir:"寺山修司", studio:"ATG", era:"新浪潮",
+   genres:["實驗電影"], note:"詩人、劇作家寺山修司的劇場長片處女作，改編自他自己的同名評論集、也是前衛劇團「天井棧敷」的舞台劇碼，以新宿街頭游擊拍攝的紀實影像與虛構情節拼貼，描繪對家庭制度與書本理性的雙重否定。"},
+  {jp:"田園に死す", en:"Pastoral: To Die in the Country", year:1974, dir:"寺山修司", studio:"ATG", era:"獨立製片與類型片爆發",
+   genres:["實驗電影","藝術電影"], note:"改編自寺山修司自己的同名歌集，帶有濃厚自傳色彩，描寫青森鄉間少年與母親的壓抑生活，以及成年後的「我」與少年時期自己重逢的超現實敘事，是他公認藝術成就最高的作品。"},
+  {jp:"儀式", en:"The Ceremony", year:1971, dir:"大島渚", studio:"ATG", era:"新浪潮",
+   genres:["實驗電影","家庭劇"], note:"以一個家族數十年間反覆舉行的儀式為軸線，隱喻戰後日本社會虛偽的秩序與權威。"},
+  {jp:"肉体の市場", en:"Nikutai no Ichiba", year:1962, dir:"小林悟", studio:"獨立/其他", era:"獨立製片與類型片爆發",
+   genres:["粉紅/成人電影"], note:"一般被視為粉紅電影的開端之作，以擦邊情色內容與極低成本製作模式，開創出片廠體制外的另一條生存路線。"},
+  {jp:"鉄男", en:"Tetsuo: The Iron Man", year:1989, dir:"塚本晉也", studio:"獨立/其他", era:"平成新電影",
+   genres:["恐怖","實驗電影"], note:"塚本晉也近乎零預算、身兼編導演剪的自主製作，描寫肉體逐漸被金屬侵蝕的男子，泡沫經濟高峰期反而拍出這樣一部反消費、反身體美學的作品，拿下羅馬奇幻影展大獎，讓體制外的日本獨立電影首度被世界看見。"},
+  {jp:"なみのおと／なみのこえ／うたうひと", en:"Tohoku Documentary Trilogy", year:2011, dir:"濱口竜介、酒井耕", studio:"獨立/其他", era:"平成新電影",
+   genres:["紀錄片"], note:"東日本大震災後，兩位導演在宮城縣花費兩年多完成的紀錄片三部曲，刻意避開災區廢墟畫面，改以親人、同僚彼此對話與民間故事口述傳承為主軸，用「聆聽」作為處理集體創傷的方法。"},
+  {jp:"温泉みみず芸者", en:"Onsen Mimizu Geisha", year:1971, dir:"鈴木則文", studio:"東映", era:"獨立製片與類型片爆發",
+   genres:["粉紅/成人電影"], note:"東映溫泉藝妓系列作品之一，該片製作團隊在宣傳時首度使用「日本第一位色情女優」的說法，帶動「ポルノ」一詞在日本流行開來。"},
+  {jp:"花と蛇", en:"Flower and Snake", year:1974, dir:"小沼勝", studio:"日活", era:"獨立製片與類型片爆發",
+   genres:["粉紅/成人電影"], note:"日活「浪漫情色」路線代表作之一，結合束縛美學與情慾敘事，是該類型商業化後最具代表性的系列之一。"},
+  {jp:"仁義なき戦い", en:"Battles Without Honor and Humanity", year:1973, dir:"深作欣二", studio:"東映", era:"獨立製片與類型片爆發",
+   genres:["黑幫/任俠"], note:"以偽紀錄片式的手持攝影與旁白，打破傳統任俠片美化黑道的敘事，呈現戰後黑幫世界的混亂與背叛。"},
+  {jp:"男はつらいよ", en:"It's Tough Being a Man (Tora-san)", year:1969, dir:"山田洋次", studio:"松竹", era:"獨立製片與類型片爆發",
+   genres:["家庭劇"], note:"以流浪小販「寅次郎」貫穿近三十年、近五十部續集的國民系列喜劇，是松竹家庭劇路線的長銷代表。"},
+  {jp:"HANA-BI", en:"Hana-bi", year:1997, dir:"北野武", studio:"獨立/其他", era:"平成新電影",
+   genres:["黑幫/任俠","藝術電影"], award:"威尼斯金獅/銀獅",
+   note:"以靜默與暴力交替的獨特節奏描寫一名退休刑警的贖罪之旅，奪下威尼斯影展金獅獎，確立北野武的國際作者地位。"},
+  {jp:"地獄門", en:"Gate of Hell", year:1954, dir:"衣笠貞之助", studio:"大映", era:"戰後黃金時代",
+   genres:["時代劇"], award:"坎城金棕櫚",
+   note:"大映首部彩色電影，改編自平安時代武士單戀人妻的悲劇，隔年拿下坎城影展最高獎（當時稱大獎），也獲奧斯卡名譽外語片獎。"},
+  {jp:"無法松の一生", en:"The Rickshaw Man", year:1958, dir:"稻垣浩", studio:"東寶", era:"戰後黃金時代",
+   genres:["家庭劇"], award:"威尼斯金獅/銀獅",
+   note:"三船敏郎主演的重拍版本，描寫日俄戰爭後小倉一名人力車夫的樸實一生，同年拿下威尼斯影展金獅獎。"},
+  {jp:"西鶴一代女", en:"The Life of Oharu", year:1952, dir:"溝口健二", studio:"新東寶", era:"戰後黃金時代",
+   genres:["時代劇","家庭劇"], award:"威尼斯金獅/銀獅",
+   note:"描寫一名女子從貴族侍女淪落至風塵的一生，長鏡頭調度細膩，是溝口健二連續三年在威尼斯獲獎的第一部。"},
+  {jp:"山椒大夫", en:"Sansho the Bailiff", year:1954, dir:"溝口健二", studio:"大映", era:"戰後黃金時代",
+   genres:["時代劇"], award:"威尼斯金獅/銀獅",
+   note:"改編自森鷗外小說，描寫平安時代一對姐弟遭拐賣為奴的悲劇，與《七人的侍》同年獲威尼斯影展銀獅獎。"},
+  {jp:"武士道残酷物語", en:"Bushido, Samurai Saga", year:1963, dir:"今井正", studio:"東映", era:"片廠全盛期",
+   genres:["時代劇"], award:"柏林金熊",
+   note:"以一個武士家族七代人的命運串連日本封建史，批判武士道對個人的壓迫，同年獲柏林影展金熊獎。"},
+  {jp:"影武者", en:"Kagemusha", year:1980, dir:"黑澤明", studio:"東寶", era:"獨立製片與類型片爆發",
+   genres:["時代劇"], award:"坎城金棕櫚",
+   note:"描寫戰國時代武田家以盜賊冒充亡故大名的故事，是黑澤明晚期代表作之一，同年獲坎城影展金棕櫚獎。"},
+  {jp:"楢山節考", en:"The Ballad of Narayama", year:1983, dir:"今村昌平", studio:"東映", era:"獨立製片與類型片爆發",
+   genres:["家庭劇"], award:"坎城金棕櫚",
+   note:"描寫貧困山村將老人揹上山中等死的棄老傳說，以近乎民族誌的冷峻視角呈現生存法則，同年獲坎城影展金棕櫚獎。"},
+  {jp:"うなぎ", en:"The Eel", year:1997, dir:"今村昌平", studio:"松竹", era:"平成新電影",
+   genres:["家庭劇"], award:"坎城金棕櫚",
+   note:"描寫一名出獄男子與一條鰻魚相依為命重新學習與人相處，同年獲坎城影展金棕櫚獎，今村昌平也因此成為日本唯一兩度獲獎的導演。"},
+  {jp:"新世紀エヴァンゲリオン劇場版", en:"The End of Evangelion", year:1997, dir:"庵野秀明", studio:"獨立/其他", era:"平成新電影",
+   genres:["動畫"], note:"電視版結局引發爭議後推出的劇場版，以實驗性影像手法收尾整個系列，是平成動畫史上的關鍵作品。"},
+  {jp:"千と千尋の神隠し", en:"Spirited Away", year:2001, dir:"宮崎駿", studio:"東寶", era:"平成新電影",
+   genres:["動畫"], award:"柏林金熊",
+   note:"吉卜力工作室的代表作，刷新日本影史票房紀錄，隔年拿下柏林影展金熊獎與奧斯卡最佳動畫長片，是日本動畫電影國際化的高峰。"},
+  {jp:"リング", en:"Ring", year:1998, dir:"中田秀夫", studio:"獨立/其他", era:"平成新電影",
+   genres:["恐怖"], note:"改編自鈴木光司小說，以錄影帶詛咒為題材掀起亞洲Ｊ－Horror浪潮，影響後續大量歐美恐怖片翻拍。"},
+  {jp:"誰も知らない", en:"Nobody Knows", year:2004, dir:"是枝裕和", studio:"獨立/其他", era:"平成新電影",
+   genres:["家庭劇"], award:"坎城最佳導演/演員",
+   note:"取材自真實社會事件，描寫遭母親遺棄的四兄妹相依為命的日常，柳樂優彌因此片成為坎城影展史上最年輕的最佳男演員得主。"},
+  {jp:"万引き家族", en:"Shoplifters", year:2018, dir:"是枝裕和", studio:"獨立/其他", era:"令和當代",
+   genres:["家庭劇"], award:"坎城金棕櫚",
+   note:"以一個靠偷竊維生卻情感緊密的非血緣家庭，拿下坎城影展金棕櫚獎，延續是枝裕和對「家庭」定義的持續叩問。"},
+  {jp:"ドライブ・マイ・カー", en:"Drive My Car", year:2021, dir:"濱口竜介", studio:"獨立/其他", era:"令和當代",
+   genres:["藝術電影"], award:"奧斯卡",
+   note:"改編自村上春樹短篇小說，以緩慢細膩的對話節奏處理喪妻導演的悲傷與贖罪，獲坎城影展最佳劇本獎，隔年再獲奧斯卡最佳國際影片。"},
+  {jp:"ゴジラ-1.0", en:"Godzilla Minus One", year:2023, dir:"山崎貴", studio:"東寶", era:"令和當代",
+   genres:["恐怖","戰爭電影"], note:"將怪獸片背景重新拉回戰後廢墟時期，把哥吉拉重新詮釋為戰爭創傷的具象化身，並拿下奧斯卡最佳視覺效果。"},
+];
+
+// build sprocket holes
+document.getElementById('sprocket').innerHTML = Array.from({length:24}).map(()=>'<i></i>').join('');
+
+let state = { era:null, genres:new Set(), studios:new Set(), awards:new Set(), q:"" };
+
+function chip(label, active, onClick, gold=false){
+  const b = document.createElement('button');
+  b.className = 'chip' + (active?' active':'') + (gold?' gold':'');
+  b.textContent = label;
+  b.onclick = onClick;
+  return b;
+}
+
+function renderChips(){
+  const eraWrap = document.getElementById('era-chips');
+  eraWrap.innerHTML = '';
+  ERAS.forEach(e=>{
+    eraWrap.appendChild(chip(e, state.era===e, ()=>{
+      state.era = state.era===e ? null : e;
+      renderAll();
+    }, true));
+  });
+
+  const genreWrap = document.getElementById('genre-chips');
+  genreWrap.innerHTML = '';
+  GENRES.forEach(g=>{
+    genreWrap.appendChild(chip(g, state.genres.has(g), ()=>{
+      state.genres.has(g) ? state.genres.delete(g) : state.genres.add(g);
+      renderAll();
+    }));
+  });
+
+  const studioWrap = document.getElementById('studio-chips');
+  studioWrap.innerHTML = '';
+  STUDIOS.forEach(s=>{
+    studioWrap.appendChild(chip(s, state.studios.has(s), ()=>{
+      state.studios.has(s) ? state.studios.delete(s) : state.studios.add(s);
+      renderAll();
+    }));
+  });
+
+  const awardWrap = document.getElementById('award-chips');
+  awardWrap.innerHTML = '';
+  AWARDS.forEach(a=>{
+    awardWrap.appendChild(chip(a, state.awards.has(a), ()=>{
+      state.awards.has(a) ? state.awards.delete(a) : state.awards.add(a);
+      renderAll();
+    }));
+  });
+}
+
+function filtered(){
+  return DATA.filter(f=>{
+    if(state.era && f.era !== state.era) return false;
+    if(state.genres.size && ![...state.genres].every(g=>f.genres.includes(g))) return false;
+    if(state.studios.size && !state.studios.has(f.studio)) return false;
+    if(state.awards.size && !(f.award && state.awards.has(f.award))) return false;
+    if(state.q){
+      const q = state.q.toLowerCase();
+      const hay = (f.jp+f.en+f.dir).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  }).sort((a,b)=>a.year-b.year);
+}
+
+function renderGrid(){
+  const list = filtered();
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  document.getElementById('count').textContent = list.length;
+  grid.innerHTML = '';
+  if(list.length===0){ empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.forEach(f=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-main">
+        <div class="card-era">${f.era}</div>
+        <div class="card-title-jp">${f.jp}</div>
+        <div class="card-title-en">${f.en}</div>
+        <div class="card-meta"><b>${f.year}</b> ・ 導演 <b>${f.dir}</b> ・ ${f.studio}</div>
+        <div class="card-tags">${f.genres.map(g=>`<span class="tag">${g}</span>`).join('')}${f.award?`<span class="tag award">🏆 ${f.award}</span>`:''}</div>
+        <div class="card-note">${f.note}</div>
+        <a class="card-link" target="_blank" rel="noopener"
+           href="https://www.themoviedb.org/search?query=${encodeURIComponent(f.jp)}">看海報／劇照（TMDB）→</a>
+      </div>
+      <div class="card-stub"><span>${f.year}</span></div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderTimeline(){
+  const el = document.getElementById('timeline');
+  el.innerHTML = EVENTS.map(ev => `
+    <div class="tl-item ${ev.type}">
+      <div class="tl-dot"></div>
+      <div class="tl-year">${ev.year}</div>
+      <div class="tl-title">${ev.title}</div>
+      <div class="tl-desc">${ev.desc}</div>
+      ${ev.era ? `<button class="tl-era-btn" data-era="${ev.era}">查看「${ev.era}」作品 →</button>` : ''}
+    </div>
+  `).join('');
+  el.querySelectorAll('.tl-era-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.era = btn.dataset.era;
+      renderAll();
+      showPage('catalog');
+    });
+  });
+}
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.page === name);
+  });
+  window.scrollTo({top:0, behavior:'instant'});
+}
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> showPage(btn.dataset.page));
+});
+
+function renderAll(){ renderChips(); renderGrid(); }
+
+document.getElementById('search').addEventListener('input', e=>{
+  state.q = e.target.value.trim();
+  renderGrid();
+});
+document.getElementById('reset').addEventListener('click', ()=>{
+  state = { era:null, genres:new Set(), studios:new Set(), awards:new Set(), q:"" };
+  document.getElementById('search').value = '';
+  renderAll();
+});
+
+renderTimeline();
+renderLineage();
+renderStudioTimeline();
+renderStudioIntro();
+renderAll();
+showPage('timeline');
+</script>
+</body>
+</html>
